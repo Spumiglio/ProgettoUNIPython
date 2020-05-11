@@ -9,6 +9,16 @@ def create_db():
                     password text ,
                     id integer                  
                     );''')
+    c.executescript('''drop table if exists ordini;
+                        create table ordini (
+                        id integer ,
+                        idprodotto integer               
+                        );''')
+    c.executescript('''drop table if exists prodotti;
+                        create table prodotti (
+                        nome text ,
+                        idprodotto integer                   
+                        );''')
     db.commit()
     db.close()
 
