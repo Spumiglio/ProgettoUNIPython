@@ -7,17 +7,17 @@ def create_db():
                     create table utenti_password (
                     username text ,
                     password text ,
-                    id integer                  
+                    id text                  
                     );''')
     c.executescript('''drop table if exists ordini;
                         create table ordini (
                         id integer ,
-                        idprodotto integer               
+                        idprodotto text               
                         );''')
     c.executescript('''drop table if exists prodotti;
                         create table prodotti (
                         nome text ,
-                        idprodotto integer                   
+                        idprodotto text                   
                         );''')
     db.commit()
     db.close()
