@@ -26,11 +26,11 @@ def register(id):
     r = Operations.register(id,content,db)
     return r
 
-@app.route('/addProduct/<idu>', methods=['GET','POST'])
-def addProduct(idu):
+@app.route('/addProduct/<uid>', methods=['GET','POST'])
+def addProduct(uid):
     content = request.get_json(silent=True)
     print (content)
-    r = Operations.addProduct(idu,content,db)
+    r = Operations.addProduct(uid,content,db)
     return r
 
 @app.route('/getFirstProducts', methods=['GET','POST'])
@@ -38,17 +38,22 @@ def getFirstProducts():
     r = Operations.getFirstProducts(db)
     return jsonify(r)
 
-@app.route('/addTessera/<idu>',methods=['GET','POST'])
-def addTessera(idu):
+@app.route('/addTessera/<uid>',methods=['GET','POST'])
+def addTessera(uid):
     content = request.get_json(silent = True)
-    r = Operations.addTesseraFed(idu,db,content)
+    r = Operations.addTesseraFed(uid,db,content)
     return r
 
-@app.route('/buyOrder/<idu>',methods = ['GET','POST'])
-def buyOrder(idu):
+@app.route('/buyOrder/<uid>',methods = ['GET','POST'])
+def buyOrder(uid):
     content = request.get_json(silent = True)
-    r = Operations.buyOrder(idu,db,content)
+    r = Operations.buyOrder(uid,db,content)
     return r
+
+@app.route('/getAllOrders/<uid>', methods= ['GET','POST'])
+def getAllOrders(uid):
+    r = Operations.getOrderById(uid,db)
+    return jsonify(r)
 
 @app.teardown_appcontext
 def close_connection(Exception):

@@ -74,3 +74,9 @@ def buyOrder(idu,db,d):
     else:
         s = "UTENTE NON TROVATO"
     return s
+
+
+def getOrderById(idu,db):
+    c = db.cursor()
+    d = c.execute("SELECT idprodotto,data,quantita FROM ordini WHERE id = ? ORDER BY idprodotto",(idu,))
+    return d.fetchall()
