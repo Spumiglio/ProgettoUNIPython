@@ -22,3 +22,21 @@ def login(username,password,db):
     else:
         s = res[0][0]
     return s
+
+def addProduct(idu,d,db):
+    c = db.cursor()
+    ver = c.execute("SELECT * FROM utenti u WHERE u.id=?", (idu,))
+    u = ver.fetchall()
+    if u[0][4] == "operatore":
+        c.execute("INSERT INTO prodotti VALUES (?,?,?,?)",(d["idp"],d["nomep"],d["quantitap"],d["prezzop"],d["immaginep"]))
+        db.commit()
+        s= "OK"
+    else:
+        s = "UTENTE NON AUTORIZZATO"
+    return s
+
+def getFirstProducts(db):
+    c = db.cursor()
+    ver = c.execute("SELECT * FROM prodotti ORDER BY CAST(quantita AS INTEGER) DESC LIMIT 10")
+    d = ver.fetchall()
+    return d

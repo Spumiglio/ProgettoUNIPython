@@ -15,12 +15,15 @@ def create_db():
                         create table ordini (
                         id text ,
                         idprodotto text,
-                        data date               
+                        data text               
                         );''')
     c.executescript('''drop table if exists prodotti;
                         create table prodotti (
-                        nome text ,
-                        idprodotto text                   
+                        idprodotto text,
+                        nome text ,     
+                        quantita text,
+                        prezzo text,
+                        immagine blob                   
                         );''')
     c.executescript('''drop table if exists indirizzi;
                         create table indirizzi (
@@ -32,7 +35,7 @@ def create_db():
     c.executescript('''drop table if exists tessere;
                         create table tessere (
                         id text,
-                        data date,
+                        data text,
                         punti text
                         );''')
 
