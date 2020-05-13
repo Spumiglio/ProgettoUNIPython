@@ -38,6 +38,18 @@ def getFirstProducts():
     r = Operations.getFirstProducts(db)
     return jsonify(r)
 
+@app.route('/addTessera/<idu>',methods=['GET','POST'])
+def addTessera(idu):
+    content = request.get_json(silent = True)
+    r = Operations.addTesseraFed(idu,db,content)
+    return r
+
+@app.route('/buyOrder/<idu>',methods = ['GET','POST'])
+def buyOrder(idu):
+    content = request.get_json(silent = True)
+    r = Operations.buyOrder(idu,db,content)
+    return r
+
 @app.teardown_appcontext
 def close_connection(Exception):
     dbc = getattr(g, '_database', None)
@@ -46,7 +58,6 @@ def close_connection(Exception):
 
 @app.errorhandler(Exception)
 def unhandled_exception(e):
-
     app.logger.error('Unhandled Exception: %s', (e))
     return "ERROR 404"
 
