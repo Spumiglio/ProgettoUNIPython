@@ -11,7 +11,8 @@ def create_db():
                     numerot text,
                     ruolo text,
                     metodop text,
-                    datip text
+                    datip text,
+                    matricola text
                     );''')
     c.executescript('''drop table if exists ordini;
                         create table ordini (
