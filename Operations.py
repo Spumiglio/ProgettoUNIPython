@@ -6,7 +6,7 @@ def register(id,d,db):
     if res != []:
         s = "USERNAME GIA UTILIZZATO"
     else:
-        c.execute("INSERT INTO utenti VALUES (?,?,?,?,?)",(id,d["username"],d["password"],d["numtel"],d["ruolo"]))
+        c.execute("INSERT INTO utenti VALUES (?,?,?,?,?,?,?)",(id,d["username"],d["password"],d["numtel"],d["ruolo"],d["metodop"],d["datip"]))
         indirizzo = d["indirizzo"]
         c.execute("INSERT INTO indirizzi VALUES (?,?,?,?)",(id,indirizzo["via"],indirizzo["CAP"],indirizzo["citta"]))
         s = "OK"

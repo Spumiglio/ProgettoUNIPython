@@ -29,7 +29,6 @@ def register(id):
 @app.route('/addProduct/<uid>', methods=['GET','POST'])
 def addProduct(uid):
     content = request.get_json(silent=True)
-    print (content)
     r = Operations.addProduct(uid,content,db)
     return r
 
