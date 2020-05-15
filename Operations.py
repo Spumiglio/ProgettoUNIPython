@@ -1,4 +1,4 @@
-
+from flask import jsonify
 def register(id,d,db):
     c = db.cursor()
     ver = c.execute("SELECT * FROM utenti u WHERE u.username=?", (d["username"],))
@@ -27,7 +27,7 @@ def addProduct(idu,d,db):
     c = db.cursor()
     ver = c.execute("SELECT * FROM utenti u WHERE u.id=?", (idu,))
     u = ver.fetchall()
-    if u[0][4] == "operatore":
+    if u != [] and u[0][7] != "None":
         c.execute("INSERT INTO prodotti VALUES (?,?,?,?)",(d["idp"],d["nomep"],d["quantitap"],d["prezzop"],d["immaginep"]))
         db.commit()
         s= "OK"
@@ -80,3 +80,54 @@ def getOrderById(idu,db):
     c = db.cursor()
     d = c.execute("SELECT idprodotto,data,quantita FROM ordini WHERE id = ? ORDER BY idprodotto",(idu,))
     return d.fetchall()
+
+def getProdByName(nomep,uid,db):
+    c = db.cursor()
+    ver = c.execute("SELECT * FROM utenti u WHERE u.id=?",(uid,)).fetchall()
+    if ver != []:
+        d = c.execute("SELECT * FROM prodotti p WHERE p.nome=?",(nomep,)).fetchall()
+        if d != []:
+            print(d)
+            return jsonify(d)
+        else:
+            return "PRODOTTO INESISTENTE"
+    else:
+        return "UTENTE NON AUTORIZZATO"
+
+def getProdByTag(tag,uid,db):
+    r = []
+    c = db.cursor()
+    taglist = tag.split(";")
+    ver = c.execute("SELECT * FROM utenti u WHERE u.id=?", (uid,)).fetchall()
+    if ver != []:
+        for i in taglist:
+            d = c.execute("SELECT * FROM prodotti p WHERE p.tag=?",(i,)).fetchall()
+            r += d
+        return jsonify(r)
+    else:
+        return "UTENTE NON AUTORIZZATO"
+
+def getProdByCat(cat,uid,db):
+    r = []
+    c = db.cursor()
+    catlist = cat.split(";")
+    ver = c.execute("SELECT * FROM utenti u WHERE u.id=?", (uid,)).fetchall()
+    if ver != []:
+        for i in catlist:
+            d = c.execute("SELECT * FROM prodotti p WHERE p.categoria=?",(i,)).fetchall()
+            r += d
+        return jsonify(r)
+    else:
+        return "UTENTE NON AUTORIZZATO"
+
+def removeProdByName(name,uid,db):
+    c = db.cursor()
+    ver = c.execute("SELECT * FROM utenti u WHERE u.id=?", (uid,))
+    u = ver.fetchall()
+    if u != [] and u[0][7] != "None":
+        c.execute("DELETE FROM prodotti WHERE nome=?",(name,))
+        db.commit()
+        s = "OK"
+    else:
+        s = "UTENTE NON AUTORIZZATO"
+    return s

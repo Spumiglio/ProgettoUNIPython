@@ -27,7 +27,9 @@ def create_db():
                         nome text ,
                         quantita text,
                         prezzo text,
-                        immagine blob
+                        immagine blob,
+                        tag text,
+                        categoria text
                         );''')
     c.executescript('''drop table if exists indirizzi;
                         create table indirizzi (

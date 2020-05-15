@@ -53,6 +53,29 @@ def getAllOrders(uid):
     r = Operations.getOrderById(uid,db)
     return jsonify(r)
 
+@app.route('/getProdByName/<nomep>', methods=['GET','POST'])
+def getProdByName(nomep):
+    uid = request.args.get("uid")
+    r = Operations.getProdByName(nomep,uid,db)
+    return r
+
+@app.route('/getProdByTag/<tag>', methods=['GET','POST'])
+def getProdByTag(tag):
+    uid = request.args.get("uid")
+    r = Operations.getProdByTag(tag,uid,db)
+    return r
+
+@app.route('/getProdByCat/<cat>', methods=['GET','POST'])
+def getProdByCat(cat):
+    uid = request.args.get("uid")
+    r = Operations.getProdByCat(cat,uid,db)
+    return r
+@app.route('/removeProdByName/<nomep>',methods = ['GET','POST'])
+def removeProdByName(nomep):
+    uid = request.args.get("uid")
+    r = Operations.removeProdByName(nomep,uid,db)
+    return r
+
 @app.teardown_appcontext
 def close_connection(Exception):
     dbc = getattr(g, '_database', None)
