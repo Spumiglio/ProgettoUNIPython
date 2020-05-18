@@ -11,10 +11,10 @@ def register(id,d,db):
         else:
             matricola = "<null>"
         tesserafed = d["tesseraFedelta"]
-        c.execute("INSERT INTO utenti VALUES (?,?,?,?,?,?,?,?,?,?)",(id,d["nome"],d["cognome"],d["telefono"],d["pagamento"],d["datiDelPagamento"],d["email"],d["password"],matricola))
+        c.execute("INSERT INTO utenti VALUES (?,?,?,?,?,?,?,?,?,?)",(id,d["nome"],d["cognome"],d["telefono"],d["pagamento"],d["datiDelPagamento"],d["email"],d["password"],matricola,tesserafed["id"]))
         indirizzo = d["indirizzo"]
         c.execute("INSERT INTO indirizzi VALUES (?,?,?,?,?,?)",(id,indirizzo["via"],indirizzo["cap"],indirizzo["localita"],indirizzo["provincia"],indirizzo["paese"]))
-        c.execute("INSERT INTO tessere VALUES (?,?,?,?)",(tesserafed["id"],tesserafed["dataEmissione"],tesserafed["saldoPunti"]))
+        c.execute("INSERT INTO tessere VALUES (?,?,?)",(tesserafed["id"],tesserafed["dataEmissione"],tesserafed["saldoPunti"]))
         s = "OK"
     db.commit()
     return s
