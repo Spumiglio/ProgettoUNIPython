@@ -6,13 +6,15 @@ def create_db():
     c.executescript('''drop table if exists utenti;
                       create table utenti (
                     id text,
-                    username text ,
-                    password text ,
-                    numerot text,
-                    ruolo text,
-                    metodop text,
+                    "nome" text,
+                    cognome text,
+                    telefono text,
+                    pagamento text,
                     datip text,
-                    matricola text
+                    email text,
+                    password text,
+                    matricola text,
+                    idtessera text
                     );''')
     c.executescript('''drop table if exists ordini;
                         create table ordini (
@@ -36,11 +38,14 @@ def create_db():
                         id text,
                         via text,
                         CAP text,
-                        citta text); ''')
+                        localita text,
+                        provincia text,
+                        paese text
+                        ); ''')
 
     c.executescript('''drop table if exists tessere;
                         create table tessere (
-                        id text,
+                        idtessera text,
                         data text,
                         punti text
                         );''')

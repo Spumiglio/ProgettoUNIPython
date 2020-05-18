@@ -6,16 +6,22 @@ def register(id,d,db):
     if res != []:
         s = "USERNAME GIA UTILIZZATO"
     else:
-        c.execute("INSERT INTO utenti VALUES (?,?,?,?,?,?,?)",(id,d["username"],d["password"],d["numtel"],d["ruolo"],d["metodop"],d["datip"]))
+        if "matricola" in d:
+            matricola = d["matricola"]
+        else:
+            matricola = "<null>"
+        tesserafed = d["tesseraFedelta"]
+        c.execute("INSERT INTO utenti VALUES (?,?,?,?,?,?,?,?,?,?)",(id,d["nome"],d["cognome"],d["telefono"],d["pagamento"],d["datiDelPagamento"],d["email"],d["password"],matricola))
         indirizzo = d["indirizzo"]
-        c.execute("INSERT INTO indirizzi VALUES (?,?,?,?)",(id,indirizzo["via"],indirizzo["CAP"],indirizzo["citta"]))
+        c.execute("INSERT INTO indirizzi VALUES (?,?,?,?,?,?)",(id,indirizzo["via"],indirizzo["cap"],indirizzo["localita"],indirizzo["provincia"],indirizzo["paese"]))
+        c.execute("INSERT INTO tessere VALUES (?,?,?,?)",(tesserafed["id"],tesserafed["dataEmissione"],tesserafed["saldoPunti"]))
         s = "OK"
     db.commit()
     return s
 
-def login(username,password,db):
+def login(email,password,db):
     c = db.cursor()
-    ver = c.execute("SELECT * FROM utenti u WHERE u.username=? AND u.password=?", (username,password))
+    ver = c.execute("SELECT * FROM utenti u WHERE u.email=? AND u.password=?", (email,password))
     res = ver.fetchall()
     if res == []:
         s = "LOGIN ERRATO"
