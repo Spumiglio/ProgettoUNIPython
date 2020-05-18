@@ -24,6 +24,7 @@ def login():
 @app.route('/register/<id>', methods=['GET', 'POST'])
 def register(id):
     content = request.get_json(silent=True)
+    print (content)
     r = Operations.register(id, content, db)
     return r
 

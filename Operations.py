@@ -3,25 +3,31 @@ def register(id,d,db):
     c = db.cursor()
     ver = c.execute("SELECT * FROM utenti u WHERE u.email=?", (d["email"],))
     res = ver.fetchall()
+    indirizzo = d["indirizzo"]
     if res != []:
         s = "USERNAME GIA UTILIZZATO"
     else:
         if "matricola" in d:
             matricola = d["matricola"]
+            c.execute("INSERT INTO utenti VALUES (?,?,?,?,?,?,?,?,?,?)",(id, d["nome"], d["cognome"], d["telefono"], "<null>", "<null>", d["email"], d["password"], matricola, "<null>"))
         else:
             matricola = "<null>"
-        if "tesseraFedelta" in d:
-            tesserafed = d["tesseraFedelta"]
-            c.execute("INSERT INTO tessere VALUES (?,?,?)",(tesserafed["id"], tesserafed["dataEmissione"], tesserafed["saldoPunti"]))
-            tid = tesserafed["id"]
-        else:
-            tid = "<null>"
-        if d["pagamento"] == "CONSEGNA":
-            ddp = "<null>"
-        else:
-            ddp = d["datiDelPagamento"]
-        indirizzo = d["indirizzo"]
-        c.execute("INSERT INTO utenti VALUES (?,?,?,?,?,?,?,?,?,?)",(id,d["nome"],d["cognome"],d["telefono"],d["pagamento"],ddp,d["email"],d["password"],matricola,tid))
+            if "tesseraFedelta" in d:
+                tesserafed = d["tesseraFedelta"]
+                c.execute("INSERT INTO tessere VALUES (?,?,?)",(tesserafed["id"], tesserafed["dataEmissione"], tesserafed["saldoPunti"]))
+                tid = tesserafed["id"]
+            else:
+                tid = "<null>"
+            if d["pagamento"] == "CONSEGNA":
+                ddp = "<null>"
+            else:
+                ddp = d["datiDelPagamento"]
+
+            if "pagamento" in d:
+                pag = d["pagamento"]
+            else:
+                pag = "<null>"
+            c.execute("INSERT INTO utenti VALUES (?,?,?,?,?,?,?,?,?,?)",(id,d["nome"],d["cognome"],d["telefono"],pag,ddp,d["email"],d["password"],matricola,tid))
         c.execute("INSERT INTO indirizzi VALUES (?,?,?,?,?,?)",(id,indirizzo["via"],indirizzo["cap"],indirizzo["localita"],indirizzo["provincia"],indirizzo["paese"]))
 
         s = "OK"
