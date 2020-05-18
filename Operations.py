@@ -1,7 +1,7 @@
 from flask import jsonify
 def register(id,d,db):
     c = db.cursor()
-    ver = c.execute("SELECT * FROM utenti u WHERE u.username=?", (d["username"],))
+    ver = c.execute("SELECT * FROM utenti u WHERE u.email=?", (d["email"],))
     res = ver.fetchall()
     if res != []:
         s = "USERNAME GIA UTILIZZATO"
