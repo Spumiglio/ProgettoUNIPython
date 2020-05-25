@@ -52,6 +52,7 @@ def addTessera(uid):
 @app.route('/buyOrder/<uid>', methods=['GET', 'POST'])
 def buyOrder(uid):
     content = request.get_json(silent=True)
+    print(content)
     r = Operations.buyOrder(uid, db, content)
     return r
 

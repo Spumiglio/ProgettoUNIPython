@@ -77,16 +77,19 @@ def addTesseraFed(idu,db,d):
 def buyOrder(idu,db,d):
     s = ""
     c = db.cursor()
+    data = d["data"]
+    idOrdine = d["ID"]
+    listaprodotti = d["prodotti"]
+
     ver = c.execute("SELECT * FROM utenti u WHERE u.id=?", (idu,))
     u = ver.fetchall()
     if u != []:
-        for i in d.values():
-            verp = c.execute("SELECT * FROM prodotti p WHERE p.idprodotto=?",(i["idp"],)).fetchall()
-            print (i["quantita"],verp[0][2])
+        for i in listaprodotti:
+            verp = c.execute("SELECT * FROM prodotti p WHERE p.idprodotto=?",(i["id"],)).fetchall()
             if verp != [] and  int(verp[0][2]) >= int(i["quantita"]):
-                c.execute("INSERT INTO ordini VALUES(?,?,?,?)",(idu,i["idp"],i["data"],i["quantita"]))
+                c.execute("INSERT INTO ordini VALUES(?,?,?,?,?)",(idu,i["id"],data,i["quantita"],idOrdine))
                 qa = int(verp[0][2]) - int(i["quantita"])
-                c.execute("UPDATE prodotti SET quantita=? WHERE idprodotto=?",(qa,i["idp"]))
+                c.execute("UPDATE prodotti SET quantita=? WHERE idprodotto=?",(qa,i["id"]))
                 db.commit()
                 s = "OK"
             else:
