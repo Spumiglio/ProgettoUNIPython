@@ -68,6 +68,12 @@ def getAllOrdersDate(uid):
     print(r)
     return jsonify(r)
 
+@app.route('/getOrderID/<uid>', methods=['GET', 'POST'])
+def getOrderID(uid):
+    data = request.args.get("date")
+    r = Operations.getOrderID(uid,db,data)
+    return jsonify(r)
+
 
 @app.route('/getProdByName/<nomep>', methods=['GET', 'POST'])
 def getProdByName(nomep):

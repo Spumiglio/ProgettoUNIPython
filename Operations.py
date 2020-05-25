@@ -161,6 +161,12 @@ def removeProdByName(name,uid,db):
 
 def getAllOrderDate(uid,db):
     c = db.cursor()
-    s = c.execute("SELECT data AS data FROM ordini WHERE id = ? GROUP BY data",(uid,))
+    s = c.execute("SELECT data,idOrdine FROM ordini WHERE id = ? GROUP BY data",(uid,))
+    r = s.fetchall();
+    return r
+
+def getOrderID(uid,db,date):
+    c = db.cursor()
+    s = c.execute("SELECT idOrdine FROM ordini WHERE id = ? AND data=? GROUP BY data", (uid,date))
     r = s.fetchall();
     return r
