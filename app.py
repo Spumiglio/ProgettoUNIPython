@@ -56,9 +56,16 @@ def buyOrder(uid):
     return r
 
 
-@app.route('/getAllOrders/<uid>', methods=['GET', 'POST'])
+@app.route('/getAllProdByOrder/<uid>', methods=['GET', 'POST'])
 def getAllOrders(uid):
-    r = Operations.getOrderById(uid, db)
+    data = request.args.get("date")
+    r = Operations.getOrderById(uid,data,db)
+    return jsonify(r)
+
+@app.route('/getAllOrdersDate/<uid>', methods=['GET', 'POST'])
+def getAllOrdersDate(uid):
+    r = Operations.getAllOrderDate(uid,db)
+    print(r)
     return jsonify(r)
 
 

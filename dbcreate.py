@@ -27,6 +27,7 @@ def create_db():
                         create table prodotti (
                         idprodotto text,
                         nome text ,
+                        marca text,
                         quantita text,
                         prezzo text,
                         immagine blob,

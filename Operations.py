@@ -97,10 +97,16 @@ def buyOrder(idu,db,d):
     return s
 
 
-def getOrderById(idu,db):
+def getOrderById(idu,date,db):
     c = db.cursor()
-    d = c.execute("SELECT idprodotto,data,quantita FROM ordini WHERE id = ? ORDER BY idprodotto",(idu,))
-    return d.fetchall()
+    d = c.execute("SELECT idprodotto,data,quantita FROM ordini WHERE id = ? AND data = ? ORDER BY idprodotto",(idu,date))
+    r = []
+    for i in d.fetchall():
+        e = c.execute("SELECT * FROM prodotti WHERE idprodotto =? ",(i[0],))
+        print(i)
+        r+= e.fetchall()
+    print (r)
+    return r
 
 def getProdByName(nomep,uid,db):
     c = db.cursor()
@@ -152,3 +158,9 @@ def removeProdByName(name,uid,db):
     else:
         s = "UTENTE NON AUTORIZZATO"
     return s
+
+def getAllOrderDate(uid,db):
+    c = db.cursor()
+    s = c.execute("SELECT data AS data FROM ordini WHERE id = ? GROUP BY data",(uid,))
+    r = s.fetchall();
+    return r
