@@ -106,8 +106,12 @@ def getOrderById(idu,date,db):
     r = []
     for i in d.fetchall():
         e = c.execute("SELECT * FROM prodotti WHERE idprodotto =? ",(i[0],))
-        print(i)
-        r+= e.fetchall()
+        a = e.fetchall()
+        b=list(a.pop(0))
+        b.insert(8,i[2])
+        a.append(tuple(b))
+        print(b)
+        r+= a
     print (r)
     return r
 

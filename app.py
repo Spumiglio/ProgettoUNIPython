@@ -18,6 +18,7 @@ def login():
     email = request.args.get("email")
     password = request.args.get("password")
     r = Operations.login(email, password, db)
+    print (r)
     return r
 
 
