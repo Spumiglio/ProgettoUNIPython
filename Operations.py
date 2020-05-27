@@ -58,7 +58,7 @@ def addProduct(idu,d,db):
 
 def getFirstProducts(db):
     c = db.cursor()
-    ver = c.execute("SELECT * FROM prodotti ORDER BY CAST(quantita AS INTEGER) DESC LIMIT 10")
+    ver = c.execute("SELECT * FROM prodotti ORDER BY CAST(disponibilita AS INTEGER) DESC LIMIT 10")
     d = ver.fetchall()
     return d
 
@@ -89,7 +89,7 @@ def buyOrder(idu,db,d):
             if verp != [] and  int(verp[0][2]) >= int(i["quantita"]):
                 c.execute("INSERT INTO ordini VALUES(?,?,?,?,?)",(idu,i["id"],data,i["quantita"],idOrdine))
                 qa = int(verp[0][2]) - int(i["quantita"])
-                c.execute("UPDATE prodotti SET quantita=? WHERE idprodotto=?",(qa,i["id"]))
+                c.execute("UPDATE prodotti SET disponibilita=? WHERE idprodotto=?",(qa,i["id"]))
                 db.commit()
                 s = "OK"
             else:
@@ -110,23 +110,18 @@ def getOrderById(idu,date,db):
         b=list(a.pop(0))
         b.insert(8,i[2])
         a.append(tuple(b))
-        print(b)
         r+= a
-    print (r)
     return r
 
-def getProdByName(nomep,uid,db):
+def getProdByName(nomep,db):
     c = db.cursor()
-    ver = c.execute("SELECT * FROM utenti u WHERE u.id=?",(uid,)).fetchall()
-    if ver != []:
-        d = c.execute("SELECT * FROM prodotti p WHERE p.nome=?",(nomep,)).fetchall()
-        if d != []:
-            print(d)
-            return jsonify(d)
-        else:
-            return "PRODOTTO INESISTENTE"
+    d = c.execute("SELECT * FROM prodotti p WHERE p.nome=?",(nomep,)).fetchall()
+    if d != []:
+        print(d)
+        return jsonify(d)
     else:
-        return "UTENTE NON AUTORIZZATO"
+        return "PRODOTTO INESISTENTE"
+
 
 def getProdByTag(tag,uid,db):
     r = []

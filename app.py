@@ -79,8 +79,7 @@ def getOrderID(uid):
 
 @app.route('/getProdByName/<nomep>', methods=['GET', 'POST'])
 def getProdByName(nomep):
-    uid = request.args.get("uid")
-    r = Operations.getProdByName(nomep, uid, db)
+    r = Operations.getProdByName(nomep,db)
     return r
 
 
