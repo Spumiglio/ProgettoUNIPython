@@ -182,5 +182,17 @@ def getUserInfo(uid,db):
         r=u+i+t
     else:
         r = u+i
-    print (r)
     return r
+
+
+def getProdByBrand(brand, uid, db):
+    c = db.cursor()
+    ver = c.execute("SELECT * FROM utenti u WHERE u.id=?", (uid,)).fetchall()
+    if ver != []:
+        d = c.execute("SELECT * FROM prodotti p WHERE p.marca=?", (brand,)).fetchall()
+        if d != []:
+            return jsonify(d)
+        else:
+            return "MARCA INESISTENTE"
+    else:
+        return "UTENTE NON AUTORIZZATO"

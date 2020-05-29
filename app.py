@@ -57,6 +57,12 @@ def buyOrder(uid):
     r = Operations.buyOrder(uid, db, content)
     return r
 
+@app.route('/getProdByBrand/<brand>')
+def getProdByBrand(brand):
+    uid = request.args.get("uid")
+    r = Operations.getProdByBrand(brand,uid,db)
+    return r
+
 
 @app.route('/getAllProdByOrder/<uid>', methods=['GET', 'POST'])
 def getAllOrders(uid):
