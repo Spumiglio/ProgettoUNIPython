@@ -28,7 +28,7 @@ def register(id,d,db):
             else:
                 pag = "<null>"
             c.execute("INSERT INTO utenti VALUES (?,?,?,?,?,?,?,?,?,?)",(id,d["nome"],d["cognome"],d["telefono"],pag,ddp,d["email"],d["password"],matricola,tid))
-        c.execute("INSERT INTO indirizzi VALUES (?,?,?,?,?,?)",(id,indirizzo["via"],indirizzo["cap"],indirizzo["localita"],indirizzo["provincia"],indirizzo["paese"]))
+        c.execute("INSERT INTO indirizzi VALUES (?,?,?,?,?,?,?)",(id,indirizzo["via"],indirizzo["cap"],indirizzo["localita"],indirizzo["provincia"],indirizzo["paese"],indirizzo["civico"]))
 
         s = "OK"
     db.commit()
@@ -171,4 +171,16 @@ def getOrderID(uid,db,date):
     c = db.cursor()
     s = c.execute("SELECT idOrdine FROM ordini WHERE id = ? AND data=? GROUP BY data", (uid,date))
     r = s.fetchall();
+    return r
+
+def getUserInfo(uid,db):
+    c = db.cursor()
+    u = c.execute("SELECT * FROM utenti WHERE id = ? ", (uid,)).fetchall()
+    i = c.execute("SELECT * FROM indirizzi WHERE id=?",(uid,)).fetchall()
+    if u[0][9] != "<null>":
+        t = c.execute("SELECT * FROM tessere WHERE idtessera=?",(u[0][9],)).fetchall()
+        r=u+i+t
+    else:
+        r = u+i
+    print (r)
     return r

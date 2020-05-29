@@ -103,6 +103,10 @@ def removeProdByName(nomep):
     r = Operations.removeProdByName(nomep, uid, db)
     return r
 
+@app.route('/getUserInfo/<idu>',methods=['GET','POST'])
+def getUserInfo(idu):
+    r = Operations.getUserInfo(idu,db)
+    return jsonify(r)
 
 @app.teardown_appcontext
 def close_connection(Exception):

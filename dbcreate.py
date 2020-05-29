@@ -4,17 +4,18 @@ def create_db():
     c = db.cursor()
 
     c.executescript('''drop table if exists utenti;
-                      create table utenti (
-                    id text,
-                    "nome" text,
-                    cognome text,
-                    telefono text,
-                    pagamento text,
-                    datip text,
-                    email text,
-                    password text,
-                    matricola text,
-                    idtessera text
+                      CREATE TABLE "utenti"
+                    (
+                        id text,
+                        nome text,
+                        cognome text,
+                        telefono text,
+                        pagamento text,
+                        datip text,
+                        email text,
+                        password text,
+                        matricola text,
+                        idtessera text
                     );''')
     c.executescript('''drop table if exists ordini;
                         create table ordini (
