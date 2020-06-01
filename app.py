@@ -114,6 +114,19 @@ def getUserInfo(idu):
     r = Operations.getUserInfo(idu,db)
     return jsonify(r)
 
+@app.route('/addQuantity/<idp>', methods=['GET','POST'])
+def addQuantity(idp):
+    uid = request.args.get("uid")
+    r = Operations.addQuantity(idp,uid,db)
+    return r
+
+@app.route('/removeQuantity/<idp>', methods=['GET','POST'])
+def removeQuantity(idp):
+    uid = request.args.get("uid")
+    r = Operations.removeQuantity(idp,uid,db)
+    return r
+
+
 @app.teardown_appcontext
 def close_connection(Exception):
     dbc = getattr(g, '_database', None)

@@ -196,3 +196,34 @@ def getProdByBrand(brand, uid, db):
             return "MARCA INESISTENTE"
     else:
         return "UTENTE NON AUTORIZZATO"
+
+
+def addQuantity(pid,uid,db):
+    c = db.cursor()
+    ver = c.execute("SELECT * FROM utenti u WHERE u.id=?", (uid,))
+    u = ver.fetchall()
+    if u != [] and u[0][7] != "None":
+        verp = c.execute("SELECT * FROM prodotti p WHERE p.idprodotto=?", (pid,)).fetchall()
+        if verp != []:
+            qa = int(verp[0][2]) + 1
+            c.execute("UPDATE prodotti SET disponibilita=? WHERE idprodotto=?", (qa, pid))
+            db.commit()
+            s = "OK"
+    else:
+        s = "UTENTE NON AUTORIZZATO"
+    return s
+
+def removeQuantity(pid,uid,db):
+    c = db.cursor()
+    ver = c.execute("SELECT * FROM utenti u WHERE u.id=?", (uid,))
+    u = ver.fetchall()
+    if u != [] and u[0][7] != "None":
+        verp = c.execute("SELECT * FROM prodotti p WHERE p.idprodotto=?", (pid,)).fetchall()
+        if verp != []:
+            qa = int(verp[0][2]) -1
+            c.execute("UPDATE prodotti SET disponibilita=? WHERE idprodotto=?", (qa, pid))
+            db.commit()
+            s = "OK"
+    else:
+        s = "UTENTE NON AUTORIZZATO"
+    return s
