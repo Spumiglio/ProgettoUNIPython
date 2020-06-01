@@ -9,7 +9,7 @@ def register(id,d,db):
     else:
         if "matricola" in d:
             matricola = d["matricola"]
-            c.execute("INSERT INTO utenti VALUES (?,?,?,?,?,?,?,?,?,?)",(id, d["nome"], d["cognome"], d["telefono"], "<null>", "<null>", d["email"], d["password"], matricola, "<null>"))
+            c.execute("INSERT INTO utenti VALUES (?,?,?,?,?,?,?,?,?,?,?)",(id, d["nome"], d["cognome"], d["telefono"], "<null>", "<null>", d["email"], d["password"], matricola, "<null>",d["ruolo"]))
         else:
             matricola = "<null>"
             if "tesseraFedelta" in d:
@@ -27,7 +27,7 @@ def register(id,d,db):
                 pag = d["pagamento"]
             else:
                 pag = "<null>"
-            c.execute("INSERT INTO utenti VALUES (?,?,?,?,?,?,?,?,?,?)",(id,d["nome"],d["cognome"],d["telefono"],pag,ddp,d["email"],d["password"],matricola,tid))
+            c.execute("INSERT INTO utenti VALUES (?,?,?,?,?,?,?,?,?,?,?)",(id,d["nome"],d["cognome"],d["telefono"],pag,ddp,d["email"],d["password"],matricola,tid,"<null>"))
         c.execute("INSERT INTO indirizzi VALUES (?,?,?,?,?,?,?)",(id,indirizzo["via"],indirizzo["cap"],indirizzo["localita"],indirizzo["provincia"],indirizzo["paese"],indirizzo["civico"]))
 
         s = "OK"
