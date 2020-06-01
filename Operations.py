@@ -149,12 +149,12 @@ def getProdByCat(cat,uid,db):
     else:
         return "UTENTE NON AUTORIZZATO"
 
-def removeProdByName(name,uid,db):
+def removeProdByID(pid,uid,db):
     c = db.cursor()
     ver = c.execute("SELECT * FROM utenti u WHERE u.id=?", (uid,))
     u = ver.fetchall()
     if u != [] and u[0][7] != "None":
-        c.execute("DELETE FROM prodotti WHERE nome=?",(name,))
+        c.execute("DELETE FROM prodotti WHERE idprodotto=?",(pid,))
         db.commit()
         s = "OK"
     else:

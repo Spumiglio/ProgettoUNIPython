@@ -103,10 +103,10 @@ def getProdByCat(cat):
     return r
 
 
-@app.route('/removeProdByName/<nomep>', methods=['GET', 'POST'])
-def removeProdByName(nomep):
+@app.route('/removeProd/<idp>', methods=['GET', 'POST'])
+def removeProdByID(idp):
     uid = request.args.get("uid")
-    r = Operations.removeProdByName(nomep, uid, db)
+    r = Operations.removeProdByID(idp, uid, db)
     return r
 
 @app.route('/getUserInfo/<idu>',methods=['GET','POST'])
