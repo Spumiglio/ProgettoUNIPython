@@ -126,6 +126,11 @@ def removeQuantity(idp):
     r = Operations.removeQuantity(idp,uid,db)
     return r
 
+@app.route('/addPoint/<idt>')
+def addTesseraPoint(idt):
+    punti = request.args.get("punti")
+    r= Operations.addTesseraPoint(idt,punti,db)
+    return r
 
 @app.teardown_appcontext
 def close_connection(Exception):

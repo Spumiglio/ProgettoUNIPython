@@ -169,7 +169,7 @@ def getAllOrderDate(uid,db):
 
 def getOrderID(uid,db,date):
     c = db.cursor()
-    s = c.execute("SELECT idOrdine FROM ordini WHERE id = ? AND data=? GROUP BY data", (uid,date))
+    s = c.execute("SELECT idOrdine,dataConsegna FROM ordini WHERE id = ? AND data=? GROUP BY data", (uid,date))
     r = s.fetchall();
     return r
 
@@ -224,6 +224,19 @@ def removeQuantity(pid,uid,db):
             c.execute("UPDATE prodotti SET disponibilita=? WHERE idprodotto=?", (qa, pid))
             db.commit()
             s = "OK"
+    else:
+        s = "UTENTE NON AUTORIZZATO"
+    return s
+
+
+def addTesseraPoint(idt,punti,db):
+    c = db.cursor()
+    verp = c.execute("SELECT * FROM tessere t WHERE t.idtessera=?", (idt,)).fetchall()
+    if verp != []:
+        qa = int(verp[0][1]) + punti
+        c.execute("UPDATE tessere SET punti=? WHERE idtessera=?", (qa, idt))
+        db.commit()
+        s = "OK"
     else:
         s = "UTENTE NON AUTORIZZATO"
     return s
