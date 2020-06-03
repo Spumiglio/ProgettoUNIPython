@@ -48,8 +48,8 @@ def addProduct(idu,d,db):
     c = db.cursor()
     ver = c.execute("SELECT * FROM utenti u WHERE u.id=?", (idu,))
     u = ver.fetchall()
-    if u != [] and u[0][7] != "None":
-        c.execute("INSERT INTO prodotti VALUES (?,?,?,?)",(d["idp"],d["nomep"],d["quantitap"],d["prezzop"],d["immaginep"]))
+    if u != [] and u[0][8] != "None":
+        c.execute("INSERT INTO prodotti VALUES (?,?,?,?,?,?,?,?,?)",(d["id"],d["nome"],d["disponibilita"],d["prezzo"],d["immagine"],d["tag"],d["categoria"],d["marca"],d["quantita"]))
         db.commit()
         s= "OK"
     else:
@@ -67,7 +67,8 @@ def addTesseraFed(idu,db,d):
     ver = c.execute("SELECT * FROM utenti u WHERE u.id=?", (idu,))
     u = ver.fetchall()
     if u != []:
-        c.execute("INSERT INTO tessere VALUES (?,?,?)",(idu,d["data"],d["punti"]))
+        c.execute("INSERT INTO tessere VALUES (?,?,?)",(d["id"],d["dataEmissione"],d["saldoPunti"]))
+        c.execute("UPDATE utenti SET idtessera=? WHERE id=?",(d["id"],idu))
         db.commit()
         s = "OK"
     else:
@@ -153,7 +154,7 @@ def removeProdByID(pid,uid,db):
     c = db.cursor()
     ver = c.execute("SELECT * FROM utenti u WHERE u.id=?", (uid,))
     u = ver.fetchall()
-    if u != [] and u[0][7] != "None":
+    if u != [] and u[0][8] != "None":
         c.execute("DELETE FROM prodotti WHERE idprodotto=?",(pid,))
         db.commit()
         s = "OK"
@@ -202,7 +203,7 @@ def addQuantity(pid,uid,db):
     c = db.cursor()
     ver = c.execute("SELECT * FROM utenti u WHERE u.id=?", (uid,))
     u = ver.fetchall()
-    if u != [] and u[0][7] != "None":
+    if u != [] and u[0][8] != "None":
         verp = c.execute("SELECT * FROM prodotti p WHERE p.idprodotto=?", (pid,)).fetchall()
         if verp != []:
             qa = int(verp[0][2]) + 1
@@ -217,7 +218,7 @@ def removeQuantity(pid,uid,db):
     c = db.cursor()
     ver = c.execute("SELECT * FROM utenti u WHERE u.id=?", (uid,))
     u = ver.fetchall()
-    if u != [] and u[0][7] != "None":
+    if u != [] and u[0][8] != "None":
         verp = c.execute("SELECT * FROM prodotti p WHERE p.idprodotto=?", (pid,)).fetchall()
         if verp != []:
             qa = int(verp[0][2]) -1
@@ -233,10 +234,21 @@ def addTesseraPoint(idt,punti,db):
     c = db.cursor()
     verp = c.execute("SELECT * FROM tessere t WHERE t.idtessera=?", (idt,)).fetchall()
     if verp != []:
-        qa = int(verp[0][1]) + punti
+        qa = int(verp[0][2]) + punti
         c.execute("UPDATE tessere SET punti=? WHERE idtessera=?", (qa, idt))
         db.commit()
         s = "OK"
     else:
         s = "UTENTE NON AUTORIZZATO"
+    return s
+
+def changePassword(uid,oldPassw,newPassw,db):
+    c = db.cursor()
+    verp = c.execute("SELECT * FROM utenti WHERE id=?",(uid,)).fetchall()
+    if verp != [] and verp[0][7] == oldPassw:
+        c.execute("UPDATE utenti SET password=? WHERE id=?",(newPassw,uid))
+        db.commit()
+        s="OK"
+    else:
+        s="PASSWORD NON CORRETTA"
     return s

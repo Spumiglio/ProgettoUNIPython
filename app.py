@@ -33,6 +33,7 @@ def register(id):
 @app.route('/addProduct/<uid>', methods=['GET', 'POST'])
 def addProduct(uid):
     content = request.get_json(silent=True)
+    print(content)
     r = Operations.addProduct(uid, content, db)
     return r
 
@@ -126,10 +127,17 @@ def removeQuantity(idp):
     r = Operations.removeQuantity(idp,uid,db)
     return r
 
-@app.route('/addPoint/<idt>')
+@app.route('/addPoint/<idt>', methods=['GET','POST'])
 def addTesseraPoint(idt):
     punti = request.args.get("punti")
     r= Operations.addTesseraPoint(idt,punti,db)
+    return r
+
+@app.route('/changePassword/<uid>', methods=['GET','POST'])
+def changePassword(uid):
+    oldPassw = request.args.get("old")
+    newPassw = request.args.get("new")
+    r = Operations.changePassword(uid,oldPassw,newPassw,db)
     return r
 
 @app.teardown_appcontext
