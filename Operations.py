@@ -234,7 +234,7 @@ def addTesseraPoint(idt,punti,db):
     c = db.cursor()
     verp = c.execute("SELECT * FROM tessere t WHERE t.idtessera=?", (idt,)).fetchall()
     if verp != []:
-        qa = int(verp[0][2]) + punti
+        qa = int(verp[0][2]) + int(punti)
         c.execute("UPDATE tessere SET punti=? WHERE idtessera=?", (qa, idt))
         db.commit()
         s = "OK"
@@ -252,3 +252,27 @@ def changePassword(uid,oldPassw,newPassw,db):
     else:
         s="PASSWORD NON CORRETTA"
     return s
+
+def getAllUserOrderID(uid,db):
+    c = db.cursor()
+    ver = c.execute("SELECT * FROM utenti u WHERE u.id=?", (uid,))
+    u = ver.fetchall()
+    if u != [] and u[0][8] != "None":
+        r = c.execute("SELECT id FROM ordini GROUP BY id").fetchall()
+        return jsonify(r)
+    else:
+        return "UTENTE NON AUTORIZZATO"
+
+
+
+
+
+
+
+
+
+
+
+
+
+

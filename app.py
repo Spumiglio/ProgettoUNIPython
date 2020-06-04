@@ -140,6 +140,12 @@ def changePassword(uid):
     r = Operations.changePassword(uid,oldPassw,newPassw,db)
     return r
 
+@app.route('/getAllUserID/<uid>', methods=['GET','POST'])
+def getAllUserID(uid):
+    r = Operations.getAllUserOrderID(uid,db)
+    return r
+
+
 @app.teardown_appcontext
 def close_connection(Exception):
     dbc = getattr(g, '_database', None)
