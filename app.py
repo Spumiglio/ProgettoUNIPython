@@ -60,8 +60,7 @@ def buyOrder(uid):
 
 @app.route('/getProdByBrand/<brand>')
 def getProdByBrand(brand):
-    uid = request.args.get("uid")
-    r = Operations.getProdByBrand(brand,uid,db)
+    r = Operations.getProdByBrand(brand,db)
     return r
 
 
@@ -92,15 +91,13 @@ def getProdByName(nomep):
 
 @app.route('/getProdByTag/<tag>', methods=['GET', 'POST'])
 def getProdByTag(tag):
-    uid = request.args.get("uid")
-    r = Operations.getProdByTag(tag, uid, db)
+    r = Operations.getProdByTag(tag,db)
     return r
 
 
 @app.route('/getProdByCat/<cat>', methods=['GET', 'POST'])
 def getProdByCat(cat):
-    uid = request.args.get("uid")
-    r = Operations.getProdByCat(cat, uid, db)
+    r = Operations.getProdByCat(cat,db)
     return r
 
 
@@ -161,4 +158,4 @@ def unhandled_exception(e):
 
 if __name__ == "__main__":
     get_db()
-    app.run()
+    app.run(host='0.0.0.0', port='9440')

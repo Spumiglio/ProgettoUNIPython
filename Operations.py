@@ -116,39 +116,35 @@ def getOrderById(idu,date,db):
 
 def getProdByName(nomep,db):
     c = db.cursor()
-    d = c.execute("SELECT * FROM prodotti p WHERE p.nome=?",(nomep,)).fetchall()
+    nomep+="%"
+    d = c.execute("SELECT * FROM prodotti p WHERE nome LIKE ?",(nomep,)).fetchall()
     if d != []:
-        print(d)
+
         return jsonify(d)
     else:
         return "PRODOTTO INESISTENTE"
 
 
-def getProdByTag(tag,uid,db):
+def getProdByTag(tag,db):
     r = []
     c = db.cursor()
     taglist = tag.split(";")
-    ver = c.execute("SELECT * FROM utenti u WHERE u.id=?", (uid,)).fetchall()
-    if ver != []:
-        for i in taglist:
-            d = c.execute("SELECT * FROM prodotti p WHERE p.tag=?",(i,)).fetchall()
-            r += d
-        return jsonify(r)
-    else:
-        return "UTENTE NON AUTORIZZATO"
 
-def getProdByCat(cat,uid,db):
+    for i in taglist:
+        d = c.execute("SELECT * FROM prodotti p WHERE p.tag=?",(i,)).fetchall()
+        r += d
+    return jsonify(r)
+
+
+def getProdByCat(cat,db):
     r = []
     c = db.cursor()
     catlist = cat.split(";")
-    ver = c.execute("SELECT * FROM utenti u WHERE u.id=?", (uid,)).fetchall()
-    if ver != []:
-        for i in catlist:
-            d = c.execute("SELECT * FROM prodotti p WHERE p.categoria=?",(i,)).fetchall()
-            r += d
-        return jsonify(r)
-    else:
-        return "UTENTE NON AUTORIZZATO"
+    for i in catlist:
+        d = c.execute("SELECT * FROM prodotti p WHERE p.categoria=?",(i,)).fetchall()
+        r += d
+    return jsonify(r)
+
 
 def removeProdByID(pid,uid,db):
     c = db.cursor()
@@ -186,17 +182,16 @@ def getUserInfo(uid,db):
     return r
 
 
-def getProdByBrand(brand, uid, db):
+def getProdByBrand(brand, db):
     c = db.cursor()
-    ver = c.execute("SELECT * FROM utenti u WHERE u.id=?", (uid,)).fetchall()
-    if ver != []:
-        d = c.execute("SELECT * FROM prodotti p WHERE p.marca=?", (brand,)).fetchall()
-        if d != []:
-            return jsonify(d)
-        else:
-            return "MARCA INESISTENTE"
+    brand+="%"
+    d = c.execute("SELECT * FROM prodotti p WHERE marca LIKE ?", (brand,)).fetchall()
+    if d != []:
+        print(d)
+        return jsonify(d)
     else:
-        return "UTENTE NON AUTORIZZATO"
+        return "MARCA INESISTENTE"
+
 
 
 def addQuantity(pid,uid,db):
