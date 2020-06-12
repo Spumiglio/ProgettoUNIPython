@@ -149,6 +149,11 @@ def updateUserInfo(uid):
     r = Operations.updateUserInfo(uid,content,db)
     return r
 
+@app.route('/getAllDeliveryDate',methods=['GET','POST'])
+def getAllDeliveryDate():
+    r = Operations.getAllDeliveryDate(db)
+    return r
+
 @app.teardown_appcontext
 def close_connection(Exception):
     dbc = getattr(g, '_database', None)

@@ -270,7 +270,10 @@ def updateUserInfo(uid,dict,db):
         return "OK"
     return "UTENTE NON AUTORIZZATO"
 
-
+def getAllDeliveryDate(db):
+    c = db.cursor()
+    r = c.execute("SELECT dataConsegna FROM ordini GROUP BY dataConsegna").fetchall()
+    return jsonify(r)
 
 
 
