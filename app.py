@@ -142,6 +142,12 @@ def getAllUserID(uid):
     r = Operations.getAllUserOrderID(uid,db)
     return r
 
+@app.route('/updateUserInfo/<uid>', methods=['GET','POST'])
+def updateUserInfo(uid):
+    content = request.get_json(silent=True)
+    print(content)
+    r = Operations.updateUserInfo(uid,content,db)
+    return r
 
 @app.teardown_appcontext
 def close_connection(Exception):

@@ -258,7 +258,17 @@ def getAllUserOrderID(uid,db):
     else:
         return "UTENTE NON AUTORIZZATO"
 
-
+def updateUserInfo(uid,dict,db):
+    c = db.cursor()
+    ver = c.execute("SELECT * FROM utenti u WHERE u.id=?", (uid,)).fetchall()
+    indirizzo = dict["indirizzo"]
+    if ver != []:
+        c.execute("UPDATE indirizzi SET via=?, CAP=?,localita=?,provincia=?,civico=? "
+                  "WHERE id=?",(indirizzo["via"],indirizzo["cap"],indirizzo["localita"],indirizzo["provincia"],indirizzo["civico"],uid))
+        c.execute("UPDATE utenti SET nome=?,cognome=?,telefono=? WHERE id=?",(dict["nome"],dict["cognome"],dict["telefono"],uid))
+        db.commit()
+        return "OK"
+    return "UTENTE NON AUTORIZZATO"
 
 
 
