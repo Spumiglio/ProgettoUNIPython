@@ -112,6 +112,11 @@ def getUserInfo(idu):
     r = Operations.getUserInfo(idu,db)
     return jsonify(r)
 
+@app.route('/getUserByEmail/<email>', methods=['GET','POST'])
+def getUserByEmail(email):
+    r = Operations.getUserInfoByEmail(email, db)
+    return jsonify(r)
+
 @app.route('/addQuantity/<idp>', methods=['GET','POST'])
 def addQuantity(idp):
     uid = request.args.get("uid")

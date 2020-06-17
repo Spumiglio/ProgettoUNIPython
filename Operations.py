@@ -181,6 +181,18 @@ def getUserInfo(uid,db):
         r = u+i
     return r
 
+def getUserInfoByEmail(email,db):
+    c = db.cursor()
+    u = c.execute("SELECT * FROM utenti WHERE email = ?", (email,)).fetchall()
+    if u:
+        i = c.execute("SELECT * FROM indirizzi WHERE id = ?", (u[0][0],)).fetchall()
+        if u[0][9] != "<null>":
+            t = c.execute("SELECT * FROM tessere WHERE idtessera= ? ", (u[0][9],)).fetchall()
+            r = u + i + t
+        else:
+            r = u + i
+        return r
+    return u
 
 def getProdByBrand(brand, db):
     c = db.cursor()
