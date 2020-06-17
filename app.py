@@ -142,6 +142,11 @@ def getAllUserID(uid):
     r = Operations.getAllUserOrderID(uid,db)
     return r
 
+@app.route('/getProdById/<pid>', methods=['GET', 'POST'])
+def getProdById(pid):
+    r = Operations.getProdById(pid,db)
+    return r
+
 @app.route('/updateUserInfo/<uid>', methods=['GET','POST'])
 def updateUserInfo(uid):
     content = request.get_json(silent=True)
@@ -159,6 +164,7 @@ def close_connection(Exception):
     dbc = getattr(g, '_database', None)
     if dbc is not None:
         dbc.close()
+
 
 
 @app.errorhandler(Exception)

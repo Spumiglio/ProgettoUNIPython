@@ -275,12 +275,13 @@ def getAllDeliveryDate(db):
     r = c.execute("SELECT dataConsegna FROM ordini GROUP BY dataConsegna").fetchall()
     return jsonify(r)
 
-
-
-
-
-
-
-
-
+def getProdById(id, db):
+    c = db.cursor()
+    id+="%"
+    d = c.execute("SELECT * FROM prodotti p WHERE idprodotto LIKE ?", (id,)).fetchall()
+    if d != []:
+        print(d)
+        return jsonify(d)
+    else:
+        return "ID INESISTENTE"
 
