@@ -88,7 +88,7 @@ def buyOrder(idu,db,d):
         for i in listaprodotti:
             verp = c.execute("SELECT * FROM prodotti p WHERE p.idprodotto=?",(i["id"],)).fetchall()
             if verp != [] and  int(verp[0][2]) >= int(i["quantita"]):
-                c.execute("INSERT INTO ordini VALUES(?,?,?,?,?,?)",(idu,i["id"],data,i["quantita"],idOrdine,d["dataConsegna"]))
+                c.execute("INSERT INTO ordini VALUES(?,?,?,?,?,?,?,?)",(idu,i["id"],data,i["quantita"],idOrdine,d["dataConsegna"], d["metodoPagamento"], d["datiPagamento"]))
                 qa = int(verp[0][2]) - int(i["quantita"])
                 c.execute("UPDATE prodotti SET disponibilita=? WHERE idprodotto=?",(qa,i["id"]))
                 db.commit()
